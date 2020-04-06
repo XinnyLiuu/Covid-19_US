@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 R.id.menu_info -> Alert(
                     this,
                     "About",
-                    "All data on this application is sourced from https://covid19api.com/."
+                    "All data on this application is sourced from https://covid19api.com/"
                 )
             }
 
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                         ProvinceDetailsFragment.US_SUMMARY
                     )
                     bundle.putInt(ProvinceDetailsFragment.TOTAL_CONFIRMED, summary.TotalConfirmed)
-                    bundle.putInt(ProvinceDetailsFragment.NEW_CONFIRMED, summary.NewConfirmed)
+                    bundle.putString(ProvinceDetailsFragment.REPORTED, summary.Date)
 
                     val fragment = ProvinceDetailsFragment()
                     fragment.arguments = bundle
@@ -192,17 +192,17 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
      * Calls api for list of countries and provinces and filters for US location
      */
     private fun getUSLocations(): List<String> {
-        val call = api!!.getCountryAndProvinces()
+        val call = api!!.getConfirmedUSCases()
         val resp = call.execute()
 
         if (resp.isSuccessful) {
             // Filter the data for US
-            val data = resp.body()
+            val data = resp.body()!!
 
-            // Get "Provinces" field
-            return data!!.filter {
-                it.Country == US
-            }[0].Provinces
+            // Get all provinces
+            return data.map {
+                it.Province
+            }.toSet().toList()
         } else {
             throw Exception("Request to API Failed!")
         }
@@ -221,7 +221,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
             // Return summary
             return data.filter {
-                it.Country == US
+                it.CountryCode == US
             }[0]
         } else {
             throw Exception("Request to API Failed!")

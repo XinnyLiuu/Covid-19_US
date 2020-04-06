@@ -1,7 +1,6 @@
 package com.xl4998.covid_19tracker.web
 
 import com.xl4998.covid_19tracker.data.CountryConfirmed
-import com.xl4998.covid_19tracker.data.CountryProvinces
 import com.xl4998.covid_19tracker.data.Summary
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -37,11 +36,21 @@ class APIService {
     fun getConfirmedUSCases(): Call<List<CountryConfirmed>> {
         return api!!.getConfirmedUSCases()
     }
-
-    /**
-     * Gets a list of countries and their provinces
-     */
-    fun getCountryAndProvinces(): Call<List<CountryProvinces>> {
-        return api!!.getCountryAndProvinces()
-    }
 }
+
+//fun main() {
+//    val call = APIService().getConfirmedUSCases()
+//    val resp = call.execute()
+//
+//    if (resp.isSuccessful) {
+//        // Filter the data for US
+//        val data = resp.body()!!
+//
+//        // Get all provinces
+//        print (data.map {
+//            it.Province
+//        }.toSet().toList())
+//    } else {
+//        throw Exception("Request to API Failed!")
+//    }
+//}

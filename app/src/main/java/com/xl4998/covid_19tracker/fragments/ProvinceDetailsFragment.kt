@@ -35,27 +35,19 @@ class ProvinceDetailsFragment : Fragment() {
         // Get the values from bundle
         if (arguments != null) {
             val confirmed = arguments!!.getInt(TOTAL_CONFIRMED).toString()
+            val reported = arguments!!.getString(REPORTED)
 
             // Check the type
             if (arguments!!.getString(TYPE) == US_SUMMARY) {
                 view.findViewById<TextView>(R.id.location_name).text = "United States"
-
-                view.findViewById<TextView>(R.id.cases).text = "Total Confirmed Cases: $confirmed"
-
-                val new = arguments!!.getInt(NEW_CONFIRMED).toString()
-                view.findViewById<TextView>(R.id.reported).text = "New Confirmed Cases: $new"
             }
 
             if (arguments!!.getString(TYPE) == LOCATION_SUMMARY) {
-                view.findViewById<TextView>(R.id.location_name).text = arguments!!.getString(
-                    LOCATION_NAME
-                )
-
-                view.findViewById<TextView>(R.id.cases).text = "Total Confirmed Cases: $confirmed"
-
-                val reported = arguments!!.getString(REPORTED)
-                view.findViewById<TextView>(R.id.reported).text = "Last Reported: $reported"
+                view.findViewById<TextView>(R.id.location_name).text = arguments!!.getString(LOCATION_NAME)
             }
+
+            view.findViewById<TextView>(R.id.cases).text = "Total Confirmed Cases: $confirmed"
+            view.findViewById<TextView>(R.id.reported).text = "Last Reported: $reported"
         }
 
         return view
